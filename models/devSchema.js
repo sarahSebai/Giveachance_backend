@@ -80,7 +80,7 @@ const infoSchema = mongoose.Schema({
    },
    profilpicture:{
      type:String,
-     required:true
+     required:false
    },
    info:
      infoSchema,
