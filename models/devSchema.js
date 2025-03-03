@@ -1,14 +1,10 @@
 const mongoose = require('mongoose');
 
-
-
 const reseauxSchema = mongoose.Schema({
     linkedin: String,
     github:String,
     twitter:String,
 })
-
-
 
 const infoSchema = mongoose.Schema({
     presentation:{
@@ -16,7 +12,6 @@ const infoSchema = mongoose.Schema({
         required:true,
     },
     reseaux:reseauxSchema
-        
     ,
     softskills:{
         type:[String],
@@ -49,11 +44,8 @@ const infoSchema = mongoose.Schema({
     }
 
  
-
-
  
  });
- 
  
 
 
@@ -62,7 +54,6 @@ const infoSchema = mongoose.Schema({
     type:String,
     required:true
   },
-  
   
     username:{
       type:String,
@@ -80,8 +71,6 @@ const infoSchema = mongoose.Schema({
    email:{
       type:String,
       required:true,
-    
-
   
    },
    password:{
