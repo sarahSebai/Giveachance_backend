@@ -4,7 +4,8 @@ const {checkBody} = require ('../modules/checkbody.js');
 const Developer = require('../models/devSchema.js');
 const Recruteur =require('../models/recruteurSchema')
 const uid2= require('uid2')
-const bcrypt= require ('bcrypt')
+const bcrypt= require ('bcrypt');
+const { set } = require('../app.js');
 
 
 /* Post: Pour Dev  */
@@ -45,7 +46,7 @@ const bcrypt= require ('bcrypt')
         newDeveloper.save()
           .then(function(devInfo) {
             console.log(devInfo);
-            res.json({ result: true, Infos: devInfo });
+            res.json({ result: true, userInfos :devInfo });
           })
 
       }
@@ -177,6 +178,7 @@ res.json({result:false, error: error.message})
 
 
  
+
 
 
 

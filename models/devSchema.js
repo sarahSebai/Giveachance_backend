@@ -63,7 +63,6 @@ const infoSchema = mongoose.Schema({
     required:true
   },
   
-  
     username:{
       type:String,
       required:true,
@@ -113,6 +112,11 @@ const infoSchema = mongoose.Schema({
   
    
    });
+
+
+
+
+
    const Developer = mongoose.model('developers', devSchema);
 
 
