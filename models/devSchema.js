@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 
+
 const reseauxSchema = mongoose.Schema({
     linkedin: String,
     github:String,
@@ -57,21 +58,30 @@ const infoSchema = mongoose.Schema({
 
 
  const devSchema = mongoose.Schema({
-   username:{
+  token:{
+    type:String,
+    required:true
+  },
+  
+  
+    username:{
       type:String,
       required:true,
+    
    },
    lastname:{
       type:String,
       required:true,
    },
    firstname:{
-     type:Number,
+     type:String,
      required:true,
    },
    email:{
       type:String,
       required:true,
+    
+
   
    },
    password:{
@@ -88,7 +98,7 @@ const infoSchema = mongoose.Schema({
    
    responseduration:{
      type:Boolean,
-     required:true
+     required:false
    },
    
 

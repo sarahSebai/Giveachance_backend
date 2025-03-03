@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
 const recruteurSchema = mongoose.Schema({
-
+    token:{
+        type:String,
+        required:true
+      },
     username:{
         type:String,
         required:true,
@@ -9,9 +12,10 @@ const recruteurSchema = mongoose.Schema({
      lastname:{
         type:String,
         required:true,
+  
      },
      firstname:{
-       type:Number,
+       type:String,
        required:true,
      },
     likedDev:{
@@ -20,14 +24,22 @@ const recruteurSchema = mongoose.Schema({
   } ,
   email:{
     type:String,        
-    required:true
+    required:true,
   },
   password:{
     type:String,
     required:true,
-  }
+  },
+ 
 });
 
 const Recruteur = mongoose.model('recruteurs', recruteurSchema);
 
 module.exports = Recruteur;
+
+
+
+
+
+
+

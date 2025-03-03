@@ -1,8 +1,9 @@
-function checkBody(body, keys) {
+function checkBody(body, champ) {
     let isValid = true;
-  
-    for (const field of keys) {
-      if (!body[field] || body[field] === '') {
+  //Si le front nous renvoie pas tous les élèments que le backend attend , ou bien il nous renvoie un champ vide ==> erreur   ,
+    
+  for (const element of champ) {
+      if (!body[element] || body[champ] === '') {
         isValid = false;
       }
     }
