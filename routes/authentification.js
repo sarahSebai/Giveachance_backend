@@ -4,49 +4,42 @@ const {checkBody} = require ('../modules/checkbody.js');
 const Developer = require('../models/devSchema.js');
 const Recruteur =require('../models/recruteurSchema')
 const uid2= require('uid2')
-const bcrypt= require ('bcrypt');
-const { set } = require('../app.js');
+const bcrypt= require ('bcrypt')
 
 
-/* Post: Pour Dev  */
-  router.post('/signup/dev', function(req, res) {
-    // console.log(req.body);
-      
+/* Route d'inscription pour les développeurs */
+router.post('/signup/dev', function(req, res) {
     const { username, firstname, lastname, email, password } = req.body;
-  
-    if (!checkBody(req.body, ['username', 'firstname', 'lastname', 'email', 'password'])) {
-      res.json({ result: false, error: 'Missing or empty fields' });
-      return;
-    }
-  
-    const hash = bcrypt.hashSync(password, 10);
-  
-    Developer.findOne({ username: {$regex:new RegExp(username,'i')}})
-
-
-      .then(devInfo => { 
-        if(devInfo){
-            //sign in
-            res.json({result:false , error:"username found,  please sign in"})
-            
-      }
-      else{
-        //signup
-        
     
-        const newDeveloper = new Developer({
-          username: username,
-          firstname: firstname,
-          lastname: lastname,
-          email: email,
-          password: hash,
-          token: uid2(32)
-        });
+    // Vérification des champs requis
+    if (!checkBody(req.body, ['username', 'firstname', 'lastname', 'email', 'password'])) {
+        res.json({ result: false, error: 'Missing or empty fields' });
+        return;
+    }
+
+    const hash = bcrypt.hashSync(password, 10); // Hashage du mot de passe
+
+    // Vérifier si le username existe déjà en base de données (insensible à la casse)
+    Developer.findOne({ username: { $regex: new RegExp(username, 'i') } })
+    .then(devInfo => {
+        if (devInfo) {
+            // Si l'utilisateur existe, on lui demande de se connecter
+            res.json({ result: false, error: 'Username found, please sign in' });
+        } else {
+            // Création d'un nouvel utilisateur
+            const newDeveloper = new Developer({
+                username: username,
+                firstname: firstname,
+                lastname: lastname,
+                email: email,
+                password: hash,
+                token: uid2(32) // Génération d'un token unique
+            });
 
         newDeveloper.save()
           .then(function(devInfo) {
             console.log(devInfo);
-            res.json({ result: true, userInfos :devInfo });
+            res.json({ result: true, Infos: devInfo });
           })
 
       }
@@ -54,119 +47,92 @@ const { set } = require('../app.js');
       })
       .catch((error)=>{
         console.error("Error creating user:", error.message);
-        
-      })
+    });
+});
 
-    
-  })
-
-  router.post('/signin/dev', function(req,res){
-
+/* Route de connexion pour les développeurs */
+router.post('/signin/dev', function(req, res) {
     const { username, password } = req.body;
-  
+    
+    // Vérification des champs requis
     if (!checkBody(req.body, ['username', 'password'])) {
-      res.json({ result: false, error: 'Missing or empty fields' });
-      return;
+        res.json({ result: false, error: 'Missing or empty fields' });
+        return;
     }
 
-
-
-    //console.log(req.body);
-    Developer.findOne({username:username })
-    
+    // Rechercher l'utilisateur en base de données
+    Developer.findOne({ username: username })
     .then(data => {
-     // console.log(data, 'top');
-      
         if (data && bcrypt.compareSync(password, data.password)) {
-         // console.log(data);
-            res.json({ result: true, infos: data}); 
-          } else{
-           // console.log(data);
-            
-            res.json({ result: false, error : ' please sigun up ' }); 
-          }
+            // Si les identifiants sont valides, on renvoie les infos de l'utilisateur
+            res.json({ result: true, infos: data }); 
+        } else {
+            // Si les identifiants sont incorrects, on affiche un message d'erreur
+            res.json({ result: false, error: 'Please sign up' }); 
+        }
     })
-    .catch((error)=>{
-  
-      res.json({result:false, error: error.message})
-      })
-  })
+    .catch(error => {
+        res.json({ result: false, error: error.message });
+    });
+});
 
-  router.post('/signup/recruteur', function(req, res) {
-    // console.log(req.body);
-      
+/* Route d'inscription pour les recruteurs */
+router.post('/signup/recruteur', function(req, res) {
     const { username, firstname, lastname, email, password } = req.body;
-  
+    
+    // Vérification des champs requis
     if (!checkBody(req.body, ['username', 'firstname', 'lastname', 'email', 'password'])) {
-      res.json({ result: false, error: 'Missing or empty fields' });
-      return;
+        res.json({ result: false, error: 'Missing or empty fields' });
+        return;
     }
-  
+
     const hash = bcrypt.hashSync(password, 10);
-  
-    Recruteur.findOne({ username: {$regex:new RegExp(username,'i')}})
 
+    // Vérifier si le username existe déjà
+    Recruteur.findOne({ username: { $regex: new RegExp(username, 'i') } })
+    .then(recruteurInfo => {
+        if (recruteurInfo) {
+            res.json({ result: false, error: 'User found, please sign in' });
+        } else {
+            // Création d'un nouveau recruteur
+            const newRecruteur = new Recruteur({
+                username: username,
+                firstname: firstname,
+                lastname: lastname,
+                email: email,
+                password: hash,
+                token: uid2(32)
+            });
 
-      .then(recruteurInfo => { 
-        if(recruteurInfo){
-            //sign in
-            res.json({result:false , error:"user found please sign in"})
-            
-      }
-      else{
-        //signup
-        
-    
-        const newRecruteur = new Recruteur({
-          username: username,
-          firstname: firstname,
-          lastname: lastname,
-          email: email,
-          password: hash,
-          token: uid2(32)
-        });
-
-        newRecruteur.save()
-          .then(function(recruteurInfo) {
-            console.log(recruteurInfo);
-            res.json({ result: true, Infos: recruteurInfo });
-          })
-
-      }
-       
-      })
-      .catch((error)=>{
+            // Sauvegarde en base de données
+            newRecruteur.save()
+            .then(recruteurInfo => {
+                res.json({ result: true, Infos: recruteurInfo });
+            });
+        }
+    })
+    .catch(error => {
         console.error("Error creating user:", error.message);
-        
-      })
+    });
+});
 
-    
-  })
-
-  router.post('/signin/recruteur', function(req,res){
-
+/* Route de connexion pour les recruteurs */
+router.post('/signin/recruteur', function(req, res) {
     const { username, password } = req.body;
-  
+    
     if (!checkBody(req.body, ['username', 'password'])) {
-      res.json({ result: false, error: 'Missing or empty fields' });
-      return;
+        res.json({ result: false, error: 'Missing or empty fields' });
+        return;
     }
 
-    //console.log(req.body);
-    // Recruteur.findOne({ $and: [{ username: username },{password:password}] })
-     Recruteur.findOne({ username: username})
-    
+    // Recherche du recruteur en base de données
+    Recruteur.findOne({ username: username })
     .then(data => {
-     console.log(data, 'top');
-      
         if (data && bcrypt.compareSync(password, data.password)) {
-         // console.log(data);
-            res.json({ result: true, infos: data}); 
-          } else{
-           // console.log(data);
-            
-            res.json({ result: false, error : ' username not found please sign up ' }); 
-          }
+            res.json({ result: true, infos: data }); 
+        } else {
+            res.json({ result: false, error: 'Username not found, please sign up' }); 
+        }
     })
 .catch((error)=>{
   
@@ -188,7 +154,7 @@ res.json({result:false, error: error.message})
 
 
 
-
   
 module.exports = router;
+
 
