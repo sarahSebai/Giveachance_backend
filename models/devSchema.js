@@ -102,6 +102,11 @@ const infoSchema = mongoose.Schema({
   
    
    });
+
+
+
+
+
    const Developer = mongoose.model('developers', devSchema);
 
 

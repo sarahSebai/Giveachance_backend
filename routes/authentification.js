@@ -1,10 +1,11 @@
 var express = require('express');
-var router = express.Router(); // Création du routeur Express
-const { checkBody } = require('../modules/checkbody.js'); // Importation de la fonction de validation des champs
-const Developer = require('../models/devSchema.js'); // Importation du modèle Developer
-const Recruteur = require('../models/recruteurSchema'); // Importation du modèle Recruteur
-const uid2 = require('uid2'); // Générateur de token unique
-const bcrypt = require('bcrypt'); // Librairie pour hasher les mots de passe
+var router = express.Router(); // méthode  express pour créer des routes
+const {checkBody} = require ('../modules/checkbody.js');
+const Developer = require('../models/devSchema.js');
+const Recruteur =require('../models/recruteurSchema')
+const uid2= require('uid2')
+const bcrypt= require ('bcrypt')
+
 
 /* Route d'inscription pour les développeurs */
 router.post('/signup/dev', function(req, res) {
@@ -35,14 +36,16 @@ router.post('/signup/dev', function(req, res) {
                 token: uid2(32) // Génération d'un token unique
             });
 
-            // Sauvegarde en base de données
-            newDeveloper.save()
-            .then(devInfo => {
-                res.json({ result: true, Infos: devInfo });
-            });
-        }
-    })
-    .catch(error => {
+        newDeveloper.save()
+          .then(function(devInfo) {
+            console.log(devInfo);
+            res.json({ result: true, Infos: devInfo });
+          })
+
+      }
+       
+      })
+      .catch((error)=>{
         console.error("Error creating user:", error.message);
     });
 });
@@ -131,12 +134,27 @@ router.post('/signin/recruteur', function(req, res) {
             res.json({ result: false, error: 'Username not found, please sign up' }); 
         }
     })
-    .catch(error => {
-        res.json({ result: false, error: error.message });
-    });
-});
+.catch((error)=>{
+  
+res.json({result:false, error: error.message})
+})
 
-// Exportation du routeur pour être utilisé dans l'application principale
+  })
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+  
 module.exports = router;
 
 
