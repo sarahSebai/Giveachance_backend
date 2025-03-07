@@ -146,6 +146,11 @@ router.post('/signup/recruteur', function(req, res) {
 // Route POST pour la connexion d'un utilisateur  
   router.post("/signin", (req, res) => {
     const { email, password } = req.body;
+
+    if (!checkBody(req.params, ['email', 'password'])) {
+        res.json({ result: false, message: "Missing or empty fields" });
+        return}
+       
     let role = "dev";// On suppose par défaut que l'utilisateur est un développeur
     let user = null;// Variable pour stocker l'utilisateur trouvé 
 
@@ -182,11 +187,39 @@ Developer.findOne({ email })// On cherche d'abord dans la collection des dévelo
 });
 
 
+router.delete('/Developer/:token', (req, res) => {
+    const { token } = req.params;
 
- 
+    Developer.deleteOne({token})
+    .then(result => {
+        if (result.deletedCount === 0) {
+            res.json({ result:false, message: "User not found" });
+        } else {
+            res.json({ result:true, message: "User deleted successfully" });
+        }
+    }).catch(error => {
+        res.status(500).json({ result: false, message: error.message });
+    });
+});
 
 
+router.delete('/Recruteur/:token', (req, res) => {
+    const { token } = req.params;
 
+    
+
+    Recruteur.deleteOne({ token })
+    .then(result => {
+
+        if (result.deletedCount === 0) {
+            res.json({result:false, message: "User not found" });
+        } else {
+            res.json({result:true, message: "User deleted successfully" });
+        }
+    }).catch(error => {
+        res.status(500).json({ result: false, message: error.message });
+    });
+});
 
 
 
