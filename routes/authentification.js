@@ -26,7 +26,7 @@ router.post('/signup/dev', function(req, res) {
             // Si l'utilisateur existe, on lui demande de se connecter
             res.json({ result: false, error: 'Username found, please sign in' });
         } else {
-            // Création d'un nouvel utilisateur
+            // Création d'un nouvel utilisateur //
             const newDeveloper = new Developer({
                 username: username,
                 firstname: firstname,
@@ -64,7 +64,9 @@ router.post('/signin/dev', function(req, res) {
     Developer.findOne({ username: username })
     .then(data => {
         if (data && bcrypt.compareSync(password, data.password)) {
-            // Si les identifiants sont valides, on renvoie les infos de l'utilisateur
+            // data.password : correspond au mdp haché et stocker dans la BDD.
+            // password : le mdp qui proviens de l'input depuis le front.
+            // Si les identifiants sont valides, on renvoie les infos de l'utilisateur.
             res.json({ result: true, infos: data }); 
         } else {
             // Si les identifiants sont incorrects, on affiche un message d'erreur

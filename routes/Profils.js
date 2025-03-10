@@ -12,7 +12,7 @@ router.get('/profils/:token', function(req, res, next) {
     Developer.findOne({ token: token }) // Recherche d'un développeur possédant ce token
     .then(data => {
         if (data) { 
-            // Si un développeur avec ce token est trouvé, on récupère tous les profils des développeurs
+            // Si un développeur avec ce token est trouvé, on récupère tous les profils de développeurs
             Developer.find()
             .then(listeprofils => {
                 res.json({ result: true, profils: listeprofils }); // Envoi de la liste des profils des développeurs en réponse

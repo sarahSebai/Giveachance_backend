@@ -90,21 +90,13 @@ const infoSchema = mongoose.Schema({
      required:false
    },
    
-
-   
    isliked:{
     type: [{type: mongoose.Schema.Types.ObjectId, ref: 'recruteur'}],
     required:false
-    
    }
 
    
-  
-   
    });
-
-
-
 
 
    const Developer = mongoose.model('developers', devSchema);
