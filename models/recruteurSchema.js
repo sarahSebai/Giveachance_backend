@@ -33,7 +33,7 @@ const recruteurSchema = mongoose.Schema({
  
 });
 
-const Recruteur = mongoose.model('recruteurs', recruteurSchema);
+const Recruteur = mongoose.model('recruteur', recruteurSchema);
 
 module.exports = Recruteur;
 

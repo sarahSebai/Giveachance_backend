@@ -45,3 +45,5 @@ router.put('/Dev/:id', function(req, res, next) {
 });
 
 module.exports = router; // Exportation du routeur pour être utilisé ailleurs dans l'application
+
+
