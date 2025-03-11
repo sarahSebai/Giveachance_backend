@@ -106,7 +106,7 @@ router.post("/signup/recruteur", function (req, res) {
 router.post("/signin", (req, res) => {
   const { email, password } = req.body;
 
-  if (!checkBody(req.params, ["email", "password"])) {
+  if (!checkBody(req.body, ["email", "password"])) {
     res.json({ result: false, message: "Missing or empty fields" });
     return;
   }

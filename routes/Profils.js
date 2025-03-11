@@ -26,4 +26,25 @@ router.get('/profils/:token', function(req, res, next) {
     });
 });
 
+
+
+router.get('/profilsAll/', function(req, res, next) {
+    
+
+    // Vérification si le token existe bien en base de données
+    Developer.find().then(data=>{
+
+
+        if (data){
+          res.json({ result: true, profils: data }); 
+        } else{
+            res.json({ result: false, message: 'users not found' }); 
+        }
+    })
+    
+    .catch(error => {
+        res.json({ error: error.message }); // Gestion des erreurs en cas de problème avec la base de données
+    });
+});
+
 module.exports = router; 
