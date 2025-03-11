@@ -105,12 +105,15 @@ router.post("/signup/recruteur", function (req, res) {
 router.post("/signin", (req, res) => {
   const { email, password } = req.body;
 
-  if (!checkBody(req.params, ["email", "password"])) {
+  if (!checkBody(req.body, ["email", "password"])) {
     res.json({ result: false, message: "Missing or empty fields" });
     return;
   }
 
-  let role = "dev"; // On suppose par défaut que l'utilisateur est un développeur
+  console.log(password, email);
+  
+
+  let role = "developer"; // On suppose par défaut que l'utilisateur est un développeur
   let user = null; // Variable pour stocker l'utilisateur trouvé
 
   Developer.findOne({ email }) // On cherche d'abord dans la collection des développeurs
