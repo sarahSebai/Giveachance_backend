@@ -9,7 +9,7 @@ router.put('/Dev/:id', function(req, res, next) {
     const {id} = req.params; // Récupération de l'ID du développeur depuis les paramètres de l'URL
     
     // Récupération des données envoyées dans le body de la requête
-    const { presentation, github, twitter, linkedin, softskills, hardskillstechnologies, qualification, disponibilities, location, typecontrat, speciality } = req.body;
+    const { profilpicture, presentation, github, twitter, linkedin, softskills, hardskillstechnologies, qualification, disponibilities, location, typecontrat, speciality } = req.body;
 
     // Vérification que tous les champs requis sont bien fournis
     if (!checkBody(req.body, ['presentation', 'softskills', 'hardskillstechnologies', 'qualification', 'disponibilities', 'location', 'typecontrat', 'speciality'])) {
@@ -20,6 +20,7 @@ router.put('/Dev/:id', function(req, res, next) {
     // Recherche du développeur par son ID et mise à jour des champs fournis
     Developer.findByIdAndUpdate(id, {
         $set: { // Utilisation de $set pour mettre à jour uniquement les champs spécifiés
+            'info.profilpicture': profilpicture,
             'info.presentation': presentation,
             'info.reseaux.linkedin': linkedin,
             'info.reseaux.github': github,
