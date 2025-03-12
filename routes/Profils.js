@@ -40,4 +40,26 @@ router.get("/All/", function (req, res, next) {
     });
 });
 
+
+
+//get my info
+router.get("/myprofile/:token", function (req, res, next) {
+  const { token } = req.params; 
+
+  Developer.findOne({ token: token })
+    .then((data) => {
+      if (data) {
+
+        res.json({ result: true, myprofils: data }); 
+
+    
+      } else {
+        res.json({ result: false, message: "please signIn" }); 
+      }
+    })
+    .catch((error) => {
+      res.json({ error: error.message }); 
+    });
+});
+
 module.exports = router;
