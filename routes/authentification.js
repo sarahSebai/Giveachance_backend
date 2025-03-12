@@ -178,7 +178,7 @@ router.delete("/Recruteur/:token", (req, res) => {
     });
 });
 
-router.put("/Recruteur/", (req, res) => {
+router.put("/Addlikes/", (req, res) => {
   const { id, token } = req.body;
 
   Recruteur.findOne({ token })
