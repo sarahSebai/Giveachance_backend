@@ -40,8 +40,6 @@ router.get("/All/", function (req, res, next) {
     });
 });
 
-
-
 //get my info
 router.get("/myprofile/:token", function (req, res, next) {
   const { token } = req.params; 

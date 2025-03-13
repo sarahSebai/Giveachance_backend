@@ -180,6 +180,7 @@ router.delete("/Recruteur/:token", (req, res) => {
 
 router.put("/Addlikes/", (req, res) => {
   const { id, token } = req.body;
+console.log(req.body);
 
   Recruteur.findOne({ token })
     .then((user) => {
