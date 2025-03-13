@@ -186,6 +186,10 @@ console.log(req.body);
     .then((user) => {
       if (user) {
         user.likedDev.push(id);
+
+
+
+        
         user.save().then((updatedUser) => {
           Developer.findByIdAndUpdate(
             id,
