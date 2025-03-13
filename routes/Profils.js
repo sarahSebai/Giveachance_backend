@@ -60,4 +60,27 @@ router.get("/myprofile/:token", function (req, res, next) {
     });
 });
 
+
+//route pour récupérer les infos du developpeur (avec l'id) que le recruteur veut voir depuis la page annuaire 
+router.get("/myprofilewithid/:id", function (req, res, next) {
+  const { id } = req.params; 
+
+  Developer.findOne({ _id: id})
+    .then((data) => {
+      if (data) {
+
+        res.json({ result: true, myprofils: data }); 
+
+    
+      } else {
+        res.json({ result: false, message: "please signIn" }); 
+      }
+    })
+    .catch((error) => {
+      res.json({ error: error.message }); 
+    });
+});
+
+
+
 module.exports = router;
